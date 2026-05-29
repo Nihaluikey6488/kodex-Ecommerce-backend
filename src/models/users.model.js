@@ -26,7 +26,7 @@ let userSchema = new mongoose.Schema({
     password: {
         type: String, // Password stored as string
         trim: true, // Remove extra spaces
-        required: [true, "Password is required"] // Password is mandatory
+        required: [true, "Password is required"] // Password is mandatory :
     }
 
 }, {
