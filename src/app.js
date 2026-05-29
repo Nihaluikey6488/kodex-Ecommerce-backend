@@ -1,13 +1,16 @@
+import dotenv from 'dotenv'
+dotenv.config()
 /**
  * This is file is setting the application of Express server
  */
-import express from 'express' 
+import express, { urlencoded } from 'express' 
 import cookieParser from 'cookie-parser'
 import authRoutes from '../src/routes/auth.routes.js'
 import productRoutes from '../src/routes/product.routes.js'
 // Initialize Express Application
 let app=express()
 app.use(express.json())
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser())
 app.use('/api/auth',authRoutes)
 app.use('/api',productRoutes)

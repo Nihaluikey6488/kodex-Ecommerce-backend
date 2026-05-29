@@ -1,8 +1,8 @@
+import dotenv from "dotenv";
 /**
  * This file is responsible for starting the server and listening on a specific port. It imports the configured Express application from app.js and starts the server.
  */
 // Importing the configured express application from app.js
-import dotenv from "dotenv";
 
 import app from "./src/app.js";
 import connectDb from "./src/config/db.js";
