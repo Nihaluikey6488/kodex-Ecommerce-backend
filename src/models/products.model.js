@@ -1,37 +1,52 @@
-import mongoose from "mongoose";
+// Import mongoose package
+import mongoose from "mongoose"
 
-const productSchema= new mongoose.Schema({
-    name:{
-    type:String,
-    trim:true,
-    required:[true,"Product name is required"]
+
+// Create schema for products collection
+const productSchema = new mongoose.Schema({
+
+    // Product name field
+    name: {
+        type: String, // Data type will be string
+        trim: true, // Remove extra spaces from start and end
+        required: [true, "Product name is required"] // Validation message
     },
-    description:{
-    type:String
+
+    // Product description field
+    description: {
+        type: String // Product description stored as string
     },
-    price:{
-        type:Number,
-         required:[true,"Product Price is required"]
+
+    // Product price field
+    price: {
+        type: Number, // Data type number
+        required: [true, "Product Price is required"] // Price is mandatory
     },
-    category:{
-        type:String,
-        trim :true
+
+    // Product category field
+    category: {
+        type: String, // Category stored as string
+        trim: true // Remove extra spaces
     },
-    images:[
+
+    // Array to store multiple product image URLs
+    images: [
         {
-            type:String
+            type: String // Each image stored as URL string
         }
+    ],
+user:String
 
-    ]
+}, {
 
-
-
-},{
-    timestamps:true
+    // Automatically add createdAt and updatedAt fields
+    timestamps: true
 })
 
 
-const productModel=mongoose.model("product",productSchema)
+// Create model from product schema
+const productModel = mongoose.model("product", productSchema)
 
 
-export default productModel;
+// Export product model
+export default productModel

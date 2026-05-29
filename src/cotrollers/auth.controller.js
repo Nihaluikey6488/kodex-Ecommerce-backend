@@ -83,7 +83,11 @@ export const loginController=asyncHandler(async(req,res)=>{
       throw new ApiError(401,"Invalid Credentials")
     }
     // generate the token
-    let tokem=await tokenGenerate(user)
+    let token=await tokenGenerate(user)
+     res.cookie("token", token, {
+    httpOnly: true,
+    maxAge: 60 * 60 * 1000,
+  });
     // Success Response
     return res.status(200).json({
       message:"User logged in successfully"

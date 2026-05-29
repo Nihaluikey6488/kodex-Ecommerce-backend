@@ -1,0 +1,58 @@
+import sendFiles from "../config/imageKit.js";
+import productModel from "../models/products.model.js";
+import ApiError from "../utils/apiError.js";
+import ApiResponse from "../utils/apiResponse.js";
+import asyncHandler from "../utils/asyncHandler.js";
+
+/**
+ * @route POST /api/products
+ * @description Create a new product in the database
+ * @access Public
+ */
+export const addProductController = asyncHandler(async (req, res) => {
+  // Get uploaded files
+  let files = req.files;
+
+  // Extract product data
+  let { name, description, price, category } = req.body;
+
+  // Validate product name
+  if (!name) {
+    throw new ApiError(400, "Name is required");
+  }
+
+  // Validate minimum name length
+  if (name.length < 3) {
+    throw new ApiError(401, "Name must be at least more than 3 characters");
+  }
+
+  // Validate price
+  if (!price) {
+    throw new ApiError(400, "Price is required");
+  }
+
+  // Upload all images to ImageKit
+  let uploadFiles = await Promise.all(
+    files.map(async (elem) => {
+      return await sendFiles(elem.buffer, elem.originalname);
+    }),
+  );
+
+  // Extract only image URLs
+  let onlyUrls = uploadFiles.map((elem) => elem.url);
+
+  // Create product in database
+  let product = await productModel.create({
+    name,
+    description,
+    price,
+    category,
+    images: onlyUrls,
+    user: req.user.email,
+  });
+
+  // Send success response
+  return res
+    .status(201)
+    .json(new ApiResponse("Product created successfully", product));
+});
