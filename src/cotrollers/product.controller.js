@@ -3,6 +3,7 @@ import productModel from "../models/products.model.js";
 import ApiError from "../utils/apiError.js";
 import ApiResponse from "../utils/apiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
+import mongoose from 'mongoose'
 
 /**
  * @route POST /api/products
@@ -74,17 +75,21 @@ export const getAllProductsController=asyncHandler(async(req,res)=>{
  * @access Public
  */
 
-//  export const getProductByIdController=asyncHandler(async(req,res)=>{
-//     let {id}=req.params
-//     // ---- Check if id is valid mongoose ObjectId ----
-//     if (!mongoose.Types.ObjectId.isValid(id)) {
-//         return res.status(400).json({ error: "Invalid note ID" });
-//     }
-// let product=await productModel.findById(id)
-// if(!product){
-//     throw new ApiError(404,'Product not found')
-// }
-//  return res.status(200).json(new ApiResponse("Products fetched successfully",product))
+ export const getProductByIdController=asyncHandler(async(req,res)=>{
+
+    let {id}=req.params
+    // ---- Check if id is valid mongoose ObjectId ----
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        return res.status(400).json({ error: "Invalid note ID" });
+    }
+    //Find the  product by id in database
+let product=await productModel.findById(id)
+// Check if the product does not exist
+if(!product){
+    throw new ApiError(404,'Product not found')
+}
+// Success Response
+ return res.status(200).json(new ApiResponse("Products fetched successfully",product))
 
 
-//  })
+ })
