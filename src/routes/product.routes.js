@@ -4,7 +4,7 @@ import upload from '../middlewares/multer.middleware.js'
 import sendFiles from '../config/imageKit.js'
 import productModel from '../models/products.model.js'
 import ApiError from '../utils/apiError.js'
-import { addProductController } from '../cotrollers/product.controller.js'
+import { addProductController,getAllProductsController } from '../cotrollers/product.controller.js'
 import authMiddleware from '../middlewares/auth.middleware.js'
 
 // router setup for user authentication routes
@@ -19,5 +19,6 @@ router.post('/products',upload.array('images',5),authMiddleware,addProductContro
 // When a GET request comes to /products,
 // addProductController function will run
 // Export  configured  router so it can be used in other files
+router.get('/products',authMiddleware,getAllProductsController)
 
 export default router

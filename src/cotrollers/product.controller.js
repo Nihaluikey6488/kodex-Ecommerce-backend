@@ -56,3 +56,35 @@ export const addProductController = asyncHandler(async (req, res) => {
     .status(201)
     .json(new ApiResponse("Product created successfully", product));
 });
+/**
+ * @route GET /api/products
+ * @description get all products saved in the database
+ * @access Public
+ */
+export const getAllProductsController=asyncHandler(async(req,res)=>{
+    // Fetch all products from the database using the product model and return a success response with the fetched products data
+    let products=await productModel.find()
+    // Return a success response with the fetched products data using the ApiResponse class to standardize the response format
+    return res.status(200).json(new ApiResponse("Products fetched successfully",products))
+
+})
+/**
+ * @route GET /api/products/:id
+ * @description get single product by id 
+ * @access Public
+ */
+
+//  export const getProductByIdController=asyncHandler(async(req,res)=>{
+//     let {id}=req.params
+//     // ---- Check if id is valid mongoose ObjectId ----
+//     if (!mongoose.Types.ObjectId.isValid(id)) {
+//         return res.status(400).json({ error: "Invalid note ID" });
+//     }
+// let product=await productModel.findById(id)
+// if(!product){
+//     throw new ApiError(404,'Product not found')
+// }
+//  return res.status(200).json(new ApiResponse("Products fetched successfully",product))
+
+
+//  })
