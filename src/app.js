@@ -12,8 +12,10 @@ app.use('/api/auth',authRoutes)
 
 // Global error handling middleware to catch any errors that occur in the application and send a response with status code 500 and a message
 app.use((err,req,res,next)=>{
-    console.error(err.stack)
-    res.status(500).json({message:"Something went wrong"})
+    let statuscode=err.statuscode || 500
+    let message=err.message || "Something went wrong"
+    console.error(err.stack)    
+    res.status(statuscode).json({message:message})
 })
 
 // Export Configured app so we can use it in  other file  

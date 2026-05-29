@@ -36,7 +36,7 @@ let userSchema = new mongoose.Schema({
 })
 
 
-// Middleware runs before saving user data
+// Middleware runs before saving user data  
 userSchema.pre("save", async function () {
 
     // If password is not modified then skip hashing
