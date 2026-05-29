@@ -4,11 +4,14 @@
 import express from 'express' 
 import cookieParser from 'cookie-parser'
 import authRoutes from '../src/routes/auth.routes.js'
+import productRoutes from '../src/routes/product.routes.js'
 // Initialize Express Application
 let app=express()
 app.use(express.json())
 app.use(cookieParser())
 app.use('/api/auth',authRoutes)
+app.use('/api',productRoutes)
+
 
 
 // Global error handling middleware to catch any errors that occur in the application and send a response with status code 500 and a message
