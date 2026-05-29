@@ -5,8 +5,10 @@
 import dotenv from 'dotenv' 
 
 import app from "./src/app.js";
+import connectDb from './src/config/db.js';
 // Load Envirment variables from .env file
-dotenv.config() //con
+dotenv.config() 
+await connectDb()// Connect to the database before starting the server
 // set the port to listen on, either from environment variable or default to 4000
 let port=process.env.PORT 
 
