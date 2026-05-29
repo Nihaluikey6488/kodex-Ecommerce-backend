@@ -1,0 +1,3 @@
+const rregisterController=(req,res)=>{
+
+}
