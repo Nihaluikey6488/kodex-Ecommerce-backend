@@ -45,7 +45,7 @@ userSchema.pre("save", async function () {
     }
 
     // Hash password before storing in database
-    this.password = await bcrypt.hash(this.password, 10)
+    this.password = await bcrypt.hashSync(this.password, 10)
 
    
    
@@ -53,10 +53,10 @@ userSchema.pre("save", async function () {
 
 
 // Custom method to compare entered password with hashed password
-userSchema.methods.comparePassword = async function (password) {
+userSchema.methods.ComparePassword = async function (password) {
 
     // Compare normal password with encrypted password
-    return await bcrypt.compare(password, this.password)
+    return await bcrypt.compareSync(password, this.password)
 }
 
 

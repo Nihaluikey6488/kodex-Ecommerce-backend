@@ -2,11 +2,12 @@
  * This is file is setting the application of Express server
  */
 import express from 'express' 
+import cookieParser from 'cookie-parser'
 import authRoutes from '../src/routes/auth.routes.js'
 // Initialize Express Application
 let app=express()
 app.use(express.json())
-
+app.use(cookieParser())
 app.use('/api/auth',authRoutes)
 
 
