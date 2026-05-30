@@ -4,7 +4,7 @@ import upload from '../middlewares/multer.middleware.js'
 import sendFiles from '../config/imageKit.js'
 import productModel from '../models/products.model.js'
 import ApiError from '../utils/apiError.js'
-import { addProductController,getAllProductsController,getProductByIdController,deleteProductController } from '../cotrollers/product.controller.js'
+import { addProductController,getAllProductsController,getProductByIdController,deleteProductController,updateProductController } from '../cotrollers/product.controller.js'
 import authMiddleware from '../middlewares/auth.middleware.js'
 
 // router setup for user authentication routes
@@ -30,6 +30,11 @@ router.get('/products/:id',authMiddleware,getProductByIdController)
 // deleteProductController function will run
 
 router.delete('/products/:id',authMiddleware,deleteProductController)
+
+
+router.put('/products/:id',upload.array('images',5),authMiddleware,updateProductController)
+
+
 
 // Export  configured  router so it can be used in other files
 export default router

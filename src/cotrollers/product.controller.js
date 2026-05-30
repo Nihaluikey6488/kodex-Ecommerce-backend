@@ -122,3 +122,64 @@ await productModel.findByIdAndDelete(id)
 return res.status(200).json(new ApiResponse("Product deleted successfully",null))
 
  })
+
+  /**
+ * @route PUT /api/products/:id
+ * @description update  single product by id 
+ * @access Public
+ */
+
+export const updateProductController=asyncHandler(async(req,res)=>{
+      // Get uploaded files
+
+      let {id}=req.params // get id from params
+      console.log("requested body",req.body)
+      let { name, description, price, category } = req.body;
+  let files = req.files;
+
+  // Extract product data
+
+  // Validate product name
+  if (!name) {
+    throw new ApiError(400, "Name is required");
+  }
+
+  // Validate minimum name length
+  if (name.length < 3) {
+    throw new ApiError(401, "Name must be at least more than 3 characters");
+  }
+
+  // Validate price
+  if (!price) {
+    throw new ApiError(400, "Price is required");
+  }
+
+  // Upload all updated images to ImageKit
+  let uploadFiles = await Promise.all(
+    files.map(async (elem) => {
+      return await sendFiles(elem.buffer, elem.originalname);
+    }),
+  );
+
+  // Extract only image URLs
+  let onlyUrls = uploadFiles.map((elem) => elem.url);
+
+  // find product in database by id
+ let product=await productModel.findById(id)
+// Check if produc not found
+ if(!product){
+    throw new ApiError(404,"Product not found")
+    
+ }
+
+ // Update product details 
+ product.name=name
+ product.description=description
+ product.price=price
+ product.category=category
+ product.images=onlyUrls
+// save the updated product
+ await product.save()
+// Success Response
+ return res.status(200).json(new ApiResponse("Product updated successfully"))
+})
