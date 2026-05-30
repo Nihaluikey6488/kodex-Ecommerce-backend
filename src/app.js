@@ -1,5 +1,5 @@
-import dotenv from "dotenv";
-dotenv.config();
+import "dotenv/config";
+
 /**
  * This is file is setting the application of Express server
  */

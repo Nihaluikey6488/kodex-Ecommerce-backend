@@ -1,10 +1,13 @@
 // Import Imagekit package
 import ImageKit from 'imagekit'
 // Create ImageKit instance with configuration keys
+
+
+
 let storageInstance= new ImageKit({
-    urlEndpoint:"https://ik.imagekit.io/7tiz96d91",  // ImageKit URL endpoint
-    publicKey:"public_MPmiu/LwyxwQAm55Xest9WRl/cc=",   // Public API key
-    privateKey:"private_1ypqQ4riNg8kCtYQr3gsIzCis5k="  //Private API key
+    urlEndpoint:process.env.IMAGEKIT_URL,  // ImageKit URL endpoint
+    publicKey:process.env.IMAGEKIT_PUBLIC_KEY,   // Public API key
+    privateKey:process.env.IMAGEKIT_PRIVATE_KEY //Private API key
 })
 
 // Function to upload files on Imagekit

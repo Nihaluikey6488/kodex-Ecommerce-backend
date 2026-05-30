@@ -1,4 +1,6 @@
-import dotenv from "dotenv";
+import "dotenv/config";
+
+
 /**
  * This file is responsible for starting the server and listening on a specific port. It imports the configured Express application from app.js and starts the server.
  */
@@ -7,7 +9,7 @@ import dotenv from "dotenv";
 import app from "./src/app.js";
 import connectDb from "./src/config/db.js";
 // Load Envirment variables from .env file
-dotenv.config();
+
 await connectDb(); // Connect to the database before starting the server
 // set the port to listen on, either from environment variable or default to 4000
 let port = process.env.PORT;

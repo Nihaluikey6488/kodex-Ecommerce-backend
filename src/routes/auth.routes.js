@@ -1,6 +1,6 @@
 // This file defines the routes for user authentication-related API endpoints. It imports the Express router and the controller functions for user registration and login, and sets up POST routes for both operations.
 import express from 'express'
-import { loginController, registerController } from '../cotrollers/auth.controller.js'
+import { loginController, registerController } from '../controllers/auth.controller.js'
 
 
 
