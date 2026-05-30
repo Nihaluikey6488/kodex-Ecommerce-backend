@@ -64,7 +64,20 @@ export const addProductController = asyncHandler(async (req, res) => {
  */
 export const getAllProductsController=asyncHandler(async(req,res)=>{
     // Fetch all products from the database using the product model and return a success response with the fetched products data
-    let products=await productModel.find()
+    let {category}=req.query   // Get category from query params
+    let products;
+     // If category is provided
+     console.log("Category",category)
+    if(category){
+         products=await productModel.find({
+            category:category
+        })
+    }
+        else{ 
+            // Return all products
+            products=await productModel.find()
+            
+        }
     // check if no products are  added
     if(products.length==0){
         throw new ApiError(400,"No products added")
@@ -133,7 +146,7 @@ export const updateProductController=asyncHandler(async(req,res)=>{
       // Get uploaded files
 
       let {id}=req.params // get id from params
-      console.log("requested body",req.body)
+    
       let { name, description, price, category } = req.body;
   let files = req.files;
 
