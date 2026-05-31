@@ -66,7 +66,7 @@ export const loginService=async(data)=>{
     if(!comparePass) {
       throw new ApiError(401,"Invalid Credentials")
     }
-    
+  // Return the user for use in the login service.
   return {
     user
   }
