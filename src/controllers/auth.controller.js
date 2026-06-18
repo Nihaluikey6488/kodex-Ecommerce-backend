@@ -1,49 +1,42 @@
-import userModel from "../models/users.model.js";
-import ApiError from "../utils/apiError.js";
 import ApiResponse from "../utils/apiResponse.js";
 import asyncHandler from "../utils/asyncHandler.js";
 import tokenGenerate from "../utils/token.js";
-import comparePassword from '../models/users.model.js'
-import { loginService, registerService } from "../services/auth.service.js";
+import { cookieOptions } from "../config/cookie.js";
+import {
+  loginService,
+  registerService,
+} from "../services/auth.service.js";
+
 /**
  * @route POST /api/auth/register
  * @description Create a new user and register in database
  * @access Public
  */
 export const registerController = asyncHandler(async (req, res) => {
-  // Extract newUser from register service
-let {newUser}=await registerService(req.body)
-  //   // Generate authentication token
-  let token = await tokenGenerate(newUser);
-  res.cookie("token", token, {
-    httpOnly: true,
-    maxAge: 60 * 60 * 1000,
-  });
+  const { user } = await registerService(req.body);
+  const token = tokenGenerate(user);
+
+  res.cookie("token", token, cookieOptions);
+
   // Send success response
   return res
     .status(201)
-    .json(new ApiResponse("User registered successfully", newUser));
+    .json(new ApiResponse("User registered successfully", user));
 });
+
 /**
  * @route POST /api/auth/login
  * @description user will login by providing credentials
  * @access Public
  */
-export const loginController=asyncHandler(async(req,res)=>{
-// Extract email and password from request body
+export const loginController = asyncHandler(async (req, res) => {
+  const { user } = await loginService(req.body);
+  const token = tokenGenerate(user);
 
-let {user}=await loginService(req.body)
-// generate the token
-    let token=await tokenGenerate(user)
-     res.cookie("token", token, {
-    httpOnly: true,
-    maxAge: 60 * 60 * 1000,
-  });
-    // Success Response
-    return res.status(200).json({
-      message:"User logged in successfully",
-      user
-    })
-    
+  res.cookie("token", token, cookieOptions);
 
-})
+  // Success Response
+  return res
+    .status(200)
+    .json(new ApiResponse("User logged in successfully", user));
+});

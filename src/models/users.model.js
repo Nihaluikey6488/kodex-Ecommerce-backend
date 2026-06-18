@@ -18,6 +18,7 @@ let userSchema = new mongoose.Schema({
     email: {
         type: String, // Data type string
         trim: true, // Remove unnecessary spaces
+        lowercase: true,
         required: [true, "Email is required"], // Email is mandatory
         unique: true // Prevent duplicate emails
     },
@@ -26,6 +27,7 @@ let userSchema = new mongoose.Schema({
     password: {
         type: String, // Password stored as string
         trim: true, // Remove extra spaces
+        select: false,
         required: [true, "Password is required"] // Password is mandatory :
     }
 
@@ -45,7 +47,7 @@ userSchema.pre("save", async function () {
     }
 
     // Hash password before storing in database
-    this.password = await bcrypt.hashSync(this.password, 10)
+    this.password = await bcrypt.hash(this.password, 10)
 
    
    
@@ -53,12 +55,11 @@ userSchema.pre("save", async function () {
 
 
 // Custom method to compare entered password with hashed password
-userSchema.methods.ComparePassword = async function (password) {
+userSchema.methods.comparePassword = async function (password) {
 
     // Compare normal password with encrypted password
-    return await bcrypt.compareSync(password, this.password)
+    return await bcrypt.compare(password, this.password)
 }
-
 
 // Create model from schema
 const userModel = mongoose.model("users", userSchema)

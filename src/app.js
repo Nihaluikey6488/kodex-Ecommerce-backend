@@ -1,29 +1,56 @@
 import "dotenv/config";
 
-/**
- * This is file is setting the application of Express server
- */
-import express, { urlencoded } from "express";
+import express from "express";
 import cookieParser from "cookie-parser";
-import authRoutes from "../src/routes/auth.routes.js";
-import productRoutes from "../src/routes/product.routes.js";
-// Initialize Express Application
-let app = express();
-app.use(express.json()); // Middleware to parse JSON data
-app.use(express.urlencoded({ extended: true })); // Middleware to parse form data
-app.use(cookieParser()); // Middleware to parse cookies
-// Authentication routes
+import multer from "multer";
+
+import authRoutes from "./routes/auth.routes.js";
+import productRoutes from "./routes/product.routes.js";
+import securityMiddleware from "./middlewares/security.middleware.js";
+
+const app = express();
+
+// Security middleware
+app.use(securityMiddleware);
+
+// Body parsers
+app.use(express.json({ limit: "10kb" }));
+app.use(express.urlencoded({ extended: true, limit: "10kb" }));
+
+// Cookie parser
+app.use(cookieParser());
+
+// Routes
 app.use("/api/auth", authRoutes);
-// Product routes
 app.use("/api", productRoutes);
 
-// Global error handling middleware
-app.use((err, req, res, next) => {
-  let statuscode = err.statusCode || 500;
-  let message = err.message || "Something went wrong";
-  console.error(err.stack);
-  res.status(statuscode).json({ message: message });
+// 404 handler
+app.use((req, res) => {
+  res.status(404).json({
+    success: false,
+    message: `Route not found: ${req.originalUrl}`,
+  });
 });
 
-// Export Configured app so we can use it in  other file
+// Global error handler
+app.use((err, req, res, next) => {
+  let statusCode = err.statusCode || 500;
+  let message = err.message || "Internal Server Error";
+
+  if (err instanceof multer.MulterError) {
+    statusCode = 400;
+    message = err.message;
+  }
+
+  if (err.code === 11000) {
+    statusCode = 409;
+    message = "Duplicate resource already exists";
+  }
+
+  res.status(statusCode).json({
+    success: false,
+    message,
+  });
+});
+
 export default app;
