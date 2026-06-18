@@ -100,6 +100,149 @@ The main improvement was moving the backend toward clear responsibility boundari
 
 The auth flow is also safer now. User responses are sanitized, password selection is restricted by default, JWT verification is centralized through validated env config, and token failures return consistent unauthorized responses.
 
+## Folder Structure Review: Before vs After
+
+### Before Review
+
+The earlier folder structure had the basic Express project shape, but some responsibilities were mixed together:
+
+```text
+src/
+├── app.js
+├── config/
+│   ├── db.js
+│   └── imageKit.js
+├── controllers/
+│   ├── auth.controller.js
+│   └── product.controller.js
+├── middlewares/
+│   ├── auth.middleware.js
+│   └── multer.middleware.js
+├── models/
+│   ├── products.model.js
+│   └── users.model.js
+├── routes/
+│   ├── auth.routes.js
+│   └── product.routes.js
+├── services/
+│   ├── auth.service.js
+│   └── product.service.js
+└── utils/
+    ├── apiError.js
+    ├── apiResponse.js
+    ├── asyncHandler.js
+    └── token.js
+```
+
+Main problems in the old structure:
+
+1. Services were directly handling database queries, so business logic and data-access logic were tightly coupled.
+2. Product service tried to use Express response logic (`res.status`) even though services should not know about `req` or `res`.
+3. Validation was scattered inside service functions instead of being handled before the request reached controllers/services.
+4. Upload middleware only stored files in memory and did not check file type, file size, or file count safely.
+5. Auth middleware directly verified JWT without clean handling for expired or malformed tokens.
+6. Configuration was incomplete because there was no `.env.example`, and required env values were not clearly documented.
+7. Security middleware such as Helmet, CORS, and rate limiting was either missing or not centralized in a dedicated middleware file.
+8. Product authorization was weak because the code did not clearly separate “find product” from “find product owned by this user.”
+
+### After Review
+
+The updated structure separates each responsibility more clearly:
+
+```text
+src/
+├── app.js
+├── config/
+│   ├── cookie.js
+│   ├── db.js
+│   ├── env.js
+│   ├── imageKit.js
+│   └── logger.js
+├── controllers/
+│   ├── auth.controller.js
+│   └── product.controller.js
+├── middlewares/
+│   ├── auth.middleware.js
+│   ├── multer.middleware.js
+│   ├── security.middleware.js
+│   └── validate.middleware.js
+├── models/
+│   ├── products.model.js
+│   └── users.model.js
+├── repositories/
+│   ├── product.repository.js
+│   └── user.repository.js
+├── routes/
+│   ├── auth.routes.js
+│   └── product.routes.js
+├── services/
+│   ├── auth.service.js
+│   └── product.service.js
+├── utils/
+│   ├── apiError.js
+│   ├── apiResponse.js
+│   ├── asyncHandler.js
+│   └── token.js
+└── validations/
+    ├── auth.validation.js
+    └── product.validation.js
+```
+
+What improved in the new structure:
+
+1. `validations/` keeps request validation rules separate from business logic.
+2. `validate.middleware.js` converts `express-validator` errors into consistent API errors.
+3. `security.middleware.js` centralizes Helmet, CORS, and rate limiting.
+4. `repositories/` keeps MongoDB queries away from service files.
+5. `product.repository.js` now performs owner-scoped product queries, updates, and deletes.
+6. `env.js` validates required environment variables with Zod before the server runs.
+7. `cookie.js` centralizes cookie settings for auth responses.
+8. `logger.js` centralizes structured logging.
+9. `multer.middleware.js` now protects upload endpoints with MIME type and size validation.
+
+## Middleware, Validation, and Security Improvements
+
+### Validation Middleware
+
+Validation was added so invalid data is rejected before it reaches controllers and services. This keeps the service layer focused on business rules instead of basic request checks.
+
+Examples:
+
+- Register requires valid `name`, `email`, and `password`.
+- Login requires valid `email` and `password`.
+- Product creation/update requires valid `name`, `price`, and optional `category`.
+- Product id routes validate MongoDB ObjectId format before querying the database.
+
+### Auth Middleware
+
+The old auth middleware only checked a cookie token and directly called `jwt.verify`. The updated middleware:
+
+- accepts token from cookie or `Authorization: Bearer <token>`;
+- uses validated JWT config from `env.js`;
+- returns a clean `401` response for missing, malformed, or expired tokens;
+- attaches the decoded user payload to `req.user`.
+
+### Upload Middleware
+
+The old upload middleware only used memory storage. The updated upload middleware:
+
+- allows only JPEG, PNG, and WEBP images;
+- limits each uploaded file to 5 MB;
+- limits product uploads to 5 files;
+- passes invalid upload errors into the global error handler.
+
+### Security Middleware
+
+Security middleware was centralized to make baseline API protection easier to reason about:
+
+- `helmet` adds common secure HTTP headers;
+- `cors` uses the configured client URL and supports credentials;
+- `express-rate-limit` reduces brute force and spam requests.
+
+### Environment and Config
+
+The review added `.env.example` and strengthened config handling through `env.js`. This makes setup clearer and prevents the server from starting with missing values like `MONGO_URI`, `JWT_SECRET`, or ImageKit keys.
+
 ## List of Issues Resolved
 
 1. Removed `res` usage from product service.
@@ -152,4 +295,3 @@ The auth flow is also safer now. User responses are sanitized, password selectio
 6. Add API documentation with accurate examples for cookie and Bearer token authentication.
 7. Add request logging with correlation ids for easier debugging.
 8. Add CI checks for syntax, tests, and dependency audit.
-

@@ -1,0 +1,377 @@
+%PDF-1.4
+%PDF
+1 0 obj
+<< /Type /Catalog /Pages 2 0 R >>
+endobj
+2 0 obj
+<< /Type /Pages /Kids [7 0 R 9 0 R 11 0 R 13 0 R 15 0 R 17 0 R 19 0 R] /Count 7 >>
+endobj
+3 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>
+endobj
+4 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold >>
+endobj
+5 0 obj
+<< /Type /Font /Subtype /Type1 /BaseFont /Courier >>
+endobj
+6 0 obj
+<< /Length 4209 >>
+stream
+BT /F1 8 Tf 1 0 0 1 54 30 Tm (Repository Review Report) Tj ET
+BT /F1 8 Tf 1 0 0 1 513 30 Tm (Page 1) Tj ET
+BT /F2 21 Tf 1 0 0 1 54.00 732.00 Tm (Repository Review Report) Tj ET
+BT /F2 15 Tf 1 0 0 1 54.00 682.00 Tm (Submission Details) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 650.00 Tm (- Reviewer: Tarun Raj) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 636.00 Tm (- Repo Owner: Nihal Uikey) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 622.00 Tm (- Original Repository: https://github.com/Nihaluikey6488/kodex-Ecommerce-backend) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 608.00 Tm (- Forked Repository: https://github.com/tarun5004/kodex-Ecommerce-backend) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 594.00 Tm (- Review Branch: tarun) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 580.00 Tm (- Pull Request Link: To be added after opening the PR from `tarun5004:tarun` to) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 566.00 Tm (`Nihaluikey6488:main`) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 552.00 Tm (- Documentation File: `REVIEW.md`) Tj ET
+BT /F2 15 Tf 1 0 0 1 54.00 522.00 Tm (Overview) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 490.00 Tm (This repository is an Express and MongoDB backend for a small e-commerce product management API.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 476.00 Tm (It includes user authentication, JWT-based protected routes, product CRUD APIs, ImageKit image) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 462.00 Tm (uploads, and MongoDB persistence through Mongoose.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 440.00 Tm (The original code had a working beginner-level structure, but several important boundaries were) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 426.00 Tm (mixed together. Controllers, services, validation, environment configuration, database access,) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 412.00 Tm (and upload handling were not cleanly separated. The review focused on keeping the same) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 398.00 Tm (application idea while making the code safer, easier to maintain, and closer to production-style) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 384.00 Tm (backend practices.) Tj ET
+BT /F2 15 Tf 1 0 0 1 54.00 354.00 Tm (Issues Found) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 322.00 Tm (1. Product service used `res.status\(...\).json\(...\)` even though `res` is not available inside the) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 308.00 Tm (service layer.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 294.00 Tm (2. Product ownership was broken because products were stored with email, while queries tried to) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 280.00 Tm (filter using a non-existing `id` field.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 266.00 Tm (3. Product read, update, and delete operations did not verify that the product belonged to the) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 252.00 Tm (logged-in user.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 238.00 Tm (4. Product upload logic imported ImageKit incorrectly after the config changed, which could break) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 224.00 Tm (create/update flows at runtime.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 210.00 Tm (5. Product service called `files.map\(...\)` directly, so requests without files could crash.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 196.00 Tm (6. Product validation was mostly inside the service layer instead of request middleware.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 182.00 Tm (7. File uploads had no file type or file size protection.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 168.00 Tm (8. Auth responses could expose user documents too directly, including sensitive fields in earlier) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 154.00 Tm (flow.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 140.00 Tm (9. Password selection and comparison were not fully hardened in the model/service boundary.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 126.00 Tm (10. JWT verification used raw environment access and did not return a clean 401 for malformed or) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 112.00 Tm (expired tokens.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 98.00 Tm (11. Auth middleware only handled cookie tokens, while API documentation also referenced Bearer) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 84.00 Tm (tokens.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 70.00 Tm (12. Environment variables were not documented with an example file.) Tj ET
+endstream
+endobj
+7 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 6 0 R >>
+endobj
+8 0 obj
+<< /Length 3926 >>
+stream
+BT /F1 8 Tf 1 0 0 1 54 30 Tm (Repository Review Report) Tj ET
+BT /F1 8 Tf 1 0 0 1 513 30 Tm (Page 2) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 738.00 Tm (13. Logger config referenced `env` without importing it, causing a runtime failure.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 724.00 Tm (14. Database and ImageKit config files contained large blocks of stale commented code.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 710.00 Tm (15. Global error handling did not normalize upload errors or duplicate key errors.) Tj ET
+BT /F2 15 Tf 1 0 0 1 54.00 680.00 Tm (Fixes Applied) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 648.00 Tm (1. Added a repository layer for users and products:) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 634.00 Tm (   - `src/repositories/user.repository.js`) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 620.00 Tm (   - `src/repositories/product.repository.js`) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 606.00 Tm (2. Refactored product service so it no longer depends on Express `req` or `res`.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 592.00 Tm (3. Changed product ownership to use the authenticated user's id instead of email.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 578.00 Tm (4. Scoped product list, read, update, and delete operations to the logged-in user.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 564.00 Tm (5. Added `express-validator` based product validation:) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 550.00 Tm (   - create product validation) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 536.00 Tm (   - update product validation) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 522.00 Tm (   - product id validation) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 508.00 Tm (   - product query validation) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 494.00 Tm (6. Improved product upload handling with Multer limits and image MIME type filtering.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 480.00 Tm (7. Fixed ImageKit usage by calling the named `uploadFile` helper from config.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 466.00 Tm (8. Preserved existing product images during update when no new files are uploaded.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 452.00 Tm (9. Added `.env.example` so required configuration is visible.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 438.00 Tm (10. Centralized environment validation with Zod in `src/config/env.js`.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 424.00 Tm (11. Fixed logger configuration and removed stale commented code from config files.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 410.00 Tm (12. Updated JWT middleware to support both cookie tokens and `Authorization: Bearer <token>`.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 396.00 Tm (13. Added clean 401 handling for invalid or expired tokens.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 382.00 Tm (14. Improved global error handling for Multer errors and duplicate MongoDB key errors.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 368.00 Tm (15. Cleaned the server startup file and added graceful shutdown handling for `SIGINT` and) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 354.00 Tm (`SIGTERM`.) Tj ET
+BT /F2 15 Tf 1 0 0 1 54.00 324.00 Tm (Setup Instructions) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 292.00 Tm (1. Install dependencies:) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 270.00 Tm (npm install) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 247.00 Tm (2. Create a local environment file:) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 225.00 Tm (cp .env.example .env) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 202.00 Tm (3. Fill these required values in `.env`:) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 180.00 Tm (MONGO_URI=) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 169.00 Tm (JWT_SECRET=) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 158.00 Tm (IMAGEKIT_URL_ENDPOINT=) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 147.00 Tm (IMAGEKIT_PUBLIC_KEY=) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 136.00 Tm (IMAGEKIT_PRIVATE_KEY=) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 113.00 Tm (4. Start the development server:) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 91.00 Tm (npm run dev) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 68.00 Tm (5. Start the server normally:) Tj ET
+endstream
+endobj
+9 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 8 0 R >>
+endobj
+10 0 obj
+<< /Length 3807 >>
+stream
+BT /F1 8 Tf 1 0 0 1 54 30 Tm (Repository Review Report) Tj ET
+BT /F1 8 Tf 1 0 0 1 513 30 Tm (Page 3) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 738.00 Tm (npm start) Tj ET
+BT /F2 15 Tf 1 0 0 1 54.00 707.00 Tm (Summary of Changes) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 675.00 Tm (The main improvement was moving the backend toward clear responsibility boundaries. Routes now) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 661.00 Tm (own request validation, controllers coordinate request and response handling, services own) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 647.00 Tm (business logic, and repositories own database access. Product authorization is now enforced at) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 633.00 Tm (the query level, which prevents users from accessing or modifying products they do not own.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 611.00 Tm (The auth flow is also safer now. User responses are sanitized, password selection is restricted) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 597.00 Tm (by default, JWT verification is centralized through validated env config, and token failures) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 583.00 Tm (return consistent unauthorized responses.) Tj ET
+BT /F2 15 Tf 1 0 0 1 54.00 553.00 Tm (Folder Structure Review: Before vs After) Tj ET
+BT /F2 12.5 Tf 1 0 0 1 54.00 516.00 Tm (Before Review) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 489.00 Tm (The earlier folder structure had the basic Express project shape, but some responsibilities were) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 475.00 Tm (mixed together:) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 453.00 Tm (src/) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 442.00 Tm ( app.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 431.00 Tm ( config/) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 420.00 Tm (    db.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 409.00 Tm (    imageKit.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 398.00 Tm ( controllers/) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 387.00 Tm (    auth.controller.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 376.00 Tm (    product.controller.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 365.00 Tm ( middlewares/) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 354.00 Tm (    auth.middleware.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 343.00 Tm (    multer.middleware.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 332.00 Tm ( models/) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 321.00 Tm (    products.model.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 310.00 Tm (    users.model.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 299.00 Tm ( routes/) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 288.00 Tm (    auth.routes.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 277.00 Tm (    product.routes.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 266.00 Tm ( services/) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 255.00 Tm (    auth.service.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 244.00 Tm (    product.service.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 233.00 Tm ( utils/) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 222.00 Tm (     apiError.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 211.00 Tm (     apiResponse.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 200.00 Tm (     asyncHandler.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 189.00 Tm (     token.js) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 166.00 Tm (Main problems in the old structure:) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 144.00 Tm (1. Services were directly handling database queries, so business logic and data-access logic were) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 130.00 Tm (tightly coupled.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 116.00 Tm (2. Product service tried to use Express response logic \(`res.status`\) even though services should) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 102.00 Tm (not know about `req` or `res`.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 88.00 Tm (3. Validation was scattered inside service functions instead of being handled before the request) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 74.00 Tm (reached controllers/services.) Tj ET
+endstream
+endobj
+11 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 10 0 R >>
+endobj
+12 0 obj
+<< /Length 4157 >>
+stream
+BT /F1 8 Tf 1 0 0 1 54 30 Tm (Repository Review Report) Tj ET
+BT /F1 8 Tf 1 0 0 1 513 30 Tm (Page 4) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 738.00 Tm (4. Upload middleware only stored files in memory and did not check file type, file size, or file) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 724.00 Tm (count safely.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 710.00 Tm (5. Auth middleware directly verified JWT without clean handling for expired or malformed tokens.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 696.00 Tm (6. Configuration was incomplete because there was no `.env.example`, and required env values were) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 682.00 Tm (not clearly documented.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 668.00 Tm (7. Security middleware such as Helmet, CORS, and rate limiting was either missing or not) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 654.00 Tm (centralized in a dedicated middleware file.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 640.00 Tm (8. Product authorization was weak because the code did not clearly separate "find product" from) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 626.00 Tm ("find product owned by this user.") Tj ET
+BT /F2 12.5 Tf 1 0 0 1 54.00 599.00 Tm (After Review) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 572.00 Tm (The updated structure separates each responsibility more clearly:) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 550.00 Tm (src/) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 539.00 Tm ( app.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 528.00 Tm ( config/) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 517.00 Tm (    cookie.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 506.00 Tm (    db.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 495.00 Tm (    env.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 484.00 Tm (    imageKit.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 473.00 Tm (    logger.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 462.00 Tm ( controllers/) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 451.00 Tm (    auth.controller.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 440.00 Tm (    product.controller.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 429.00 Tm ( middlewares/) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 418.00 Tm (    auth.middleware.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 407.00 Tm (    multer.middleware.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 396.00 Tm (    security.middleware.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 385.00 Tm (    validate.middleware.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 374.00 Tm ( models/) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 363.00 Tm (    products.model.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 352.00 Tm (    users.model.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 341.00 Tm ( repositories/) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 330.00 Tm (    product.repository.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 319.00 Tm (    user.repository.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 308.00 Tm ( routes/) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 297.00 Tm (    auth.routes.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 286.00 Tm (    product.routes.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 275.00 Tm ( services/) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 264.00 Tm (    auth.service.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 253.00 Tm (    product.service.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 242.00 Tm ( utils/) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 231.00 Tm (    apiError.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 220.00 Tm (    apiResponse.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 209.00 Tm (    asyncHandler.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 198.00 Tm (    token.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 187.00 Tm ( validations/) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 176.00 Tm (     auth.validation.js) Tj ET
+BT /F3 8.5 Tf 1 0 0 1 54.00 165.00 Tm (     product.validation.js) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 142.00 Tm (What improved in the new structure:) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 120.00 Tm (1. `validations/` keeps request validation rules separate from business logic.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 106.00 Tm (2. `validate.middleware.js` converts `express-validator` errors into consistent API errors.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 92.00 Tm (3. `security.middleware.js` centralizes Helmet, CORS, and rate limiting.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 78.00 Tm (4. `repositories/` keeps MongoDB queries away from service files.) Tj ET
+endstream
+endobj
+13 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 12 0 R >>
+endobj
+14 0 obj
+<< /Length 3657 >>
+stream
+BT /F1 8 Tf 1 0 0 1 54 30 Tm (Repository Review Report) Tj ET
+BT /F1 8 Tf 1 0 0 1 513 30 Tm (Page 5) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 738.00 Tm (5. `product.repository.js` now performs owner-scoped product queries, updates, and deletes.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 724.00 Tm (6. `env.js` validates required environment variables with Zod before the server runs.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 710.00 Tm (7. `cookie.js` centralizes cookie settings for auth responses.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 696.00 Tm (8. `logger.js` centralizes structured logging.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 682.00 Tm (9. `multer.middleware.js` now protects upload endpoints with MIME type and size validation.) Tj ET
+BT /F2 15 Tf 1 0 0 1 54.00 652.00 Tm (Middleware, Validation, and Security Improvements) Tj ET
+BT /F2 12.5 Tf 1 0 0 1 54.00 615.00 Tm (Validation Middleware) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 588.00 Tm (Validation was added so invalid data is rejected before it reaches controllers and services.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 574.00 Tm (This keeps the service layer focused on business rules instead of basic request checks.) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 552.00 Tm (Examples:) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 530.00 Tm (- Register requires valid `name`, `email`, and `password`.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 516.00 Tm (- Login requires valid `email` and `password`.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 502.00 Tm (- Product creation/update requires valid `name`, `price`, and optional `category`.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 488.00 Tm (- Product id routes validate MongoDB ObjectId format before querying the database.) Tj ET
+BT /F2 12.5 Tf 1 0 0 1 54.00 461.00 Tm (Auth Middleware) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 434.00 Tm (The old auth middleware only checked a cookie token and directly called `jwt.verify`. The) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 420.00 Tm (updated middleware:) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 398.00 Tm (- accepts token from cookie or `Authorization: Bearer <token>`;) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 384.00 Tm (- uses validated JWT config from `env.js`;) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 370.00 Tm (- returns a clean `401` response for missing, malformed, or expired tokens;) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 356.00 Tm (- attaches the decoded user payload to `req.user`.) Tj ET
+BT /F2 12.5 Tf 1 0 0 1 54.00 329.00 Tm (Upload Middleware) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 302.00 Tm (The old upload middleware only used memory storage. The updated upload middleware:) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 280.00 Tm (- allows only JPEG, PNG, and WEBP images;) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 266.00 Tm (- limits each uploaded file to 5 MB;) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 252.00 Tm (- limits product uploads to 5 files;) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 238.00 Tm (- passes invalid upload errors into the global error handler.) Tj ET
+BT /F2 12.5 Tf 1 0 0 1 54.00 211.00 Tm (Security Middleware) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 184.00 Tm (Security middleware was centralized to make baseline API protection easier to reason about:) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 162.00 Tm (- `helmet` adds common secure HTTP headers;) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 148.00 Tm (- `cors` uses the configured client URL and supports credentials;) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 134.00 Tm (- `express-rate-limit` reduces brute force and spam requests.) Tj ET
+BT /F2 12.5 Tf 1 0 0 1 54.00 107.00 Tm (Environment and Config) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 80.00 Tm (The review added `.env.example` and strengthened config handling through `env.js`. This makes) Tj ET
+endstream
+endobj
+15 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 14 0 R >>
+endobj
+16 0 obj
+<< /Length 4705 >>
+stream
+BT /F1 8 Tf 1 0 0 1 54 30 Tm (Repository Review Report) Tj ET
+BT /F1 8 Tf 1 0 0 1 513 30 Tm (Page 6) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 738.00 Tm (setup clearer and prevents the server from starting with missing values like `MONGO_URI`,) Tj ET
+BT /F1 10.5 Tf 1 0 0 1 54.00 724.00 Tm (`JWT_SECRET`, or ImageKit keys.) Tj ET
+BT /F2 15 Tf 1 0 0 1 54.00 694.00 Tm (List of Issues Resolved) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 662.00 Tm (1. Removed `res` usage from product service.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 648.00 Tm (2. Fixed broken product owner filtering.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 634.00 Tm (3. Added owner checks for product read, update, and delete.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 620.00 Tm (4. Fixed ImageKit upload helper usage.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 606.00 Tm (5. Made image upload handling safe when files are missing.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 592.00 Tm (6. Added product request validation middleware.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 578.00 Tm (7. Added upload MIME type and size limits.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 564.00 Tm (8. Improved JWT validation and error handling.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 550.00 Tm (9. Added Bearer token support.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 536.00 Tm (10. Added `.env.example` and centralized env validation.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 522.00 Tm (11. Fixed broken logger config.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 508.00 Tm (12. Cleaned stale commented code from startup/config files.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 494.00 Tm (13. Added repository layer for cleaner database access.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 480.00 Tm (14. Improved duplicate key and Multer error responses.) Tj ET
+BT /F2 15 Tf 1 0 0 1 54.00 450.00 Tm (Improvement Report: Before vs After Analysis) Tj ET
+BT /F3 7.8 Tf 1 0 0 1 54.00 418.00 Tm (| Area | Before | After |) Tj ET
+BT /F3 7.8 Tf 1 0 0 1 54.00 408.00 Tm (| --- | --- | --- |) Tj ET
+BT /F3 7.8 Tf 1 0 0 1 54.00 398.00 Tm (| Product ownership | Products used email and queries used a missing `id` field | Products are tied to authenti) Tj ET
+BT /F3 7.8 Tf 1 0 0 1 54.00 388.00 Tm (cated user id |) Tj ET
+BT /F3 7.8 Tf 1 0 0 1 54.00 378.00 Tm (| Authorization | Any logged-in user could access a product by id | Product queries include both product id and) Tj ET
+BT /F3 7.8 Tf 1 0 0 1 54.00 368.00 Tm ( owner id |) Tj ET
+BT /F3 7.8 Tf 1 0 0 1 54.00 358.00 Tm (| Service layer | Mixed Express response logic with business logic | Services return data or throw `ApiError` |) Tj ET
+BT /F3 7.8 Tf 1 0 0 1 54.00 348.00 Tm (| Validation | Product validation was manual and scattered | Validation uses `express-validator` at route level) Tj ET
+BT /F3 7.8 Tf 1 0 0 1 54.00 338.00 Tm ( |) Tj ET
+BT /F3 7.8 Tf 1 0 0 1 54.00 328.00 Tm (| Uploads | No file type or size protection | JPEG, PNG, WEBP only, with file size and count limits |) Tj ET
+BT /F3 7.8 Tf 1 0 0 1 54.00 318.00 Tm (| ImageKit | Import/export mismatch could break uploads | Product service uses the correct `uploadFile` helper ) Tj ET
+BT /F3 7.8 Tf 1 0 0 1 54.00 308.00 Tm (|) Tj ET
+BT /F3 7.8 Tf 1 0 0 1 54.00 298.00 Tm (| Auth | JWT verification was direct and fragile | Tokens are verified through centralized env config with clea) Tj ET
+BT /F3 7.8 Tf 1 0 0 1 54.00 288.00 Tm (n 401 errors |) Tj ET
+BT /F3 7.8 Tf 1 0 0 1 54.00 278.00 Tm (| Config | Missing documented env example | Added `.env.example` and Zod env validation |) Tj ET
+BT /F3 7.8 Tf 1 0 0 1 54.00 268.00 Tm (| Logging | Logger referenced undefined config | Logger now imports validated env config |) Tj ET
+BT /F3 7.8 Tf 1 0 0 1 54.00 258.00 Tm (| Maintainability | Database queries lived directly in services | Repository files now isolate data access |) Tj ET
+BT /F2 15 Tf 1 0 0 1 54.00 232.00 Tm (Improvements) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 200.00 Tm (- Better separation of concerns across routes, controllers, services, repositories, models, and) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 186.00 Tm (config.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 172.00 Tm (- Safer product authorization by scoping database queries to the authenticated user.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 158.00 Tm (- More reliable validation using `express-validator`.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 144.00 Tm (- Safer file uploads with type and size checks.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 130.00 Tm (- Cleaner JWT handling with consistent unauthorized responses.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 116.00 Tm (- More predictable runtime configuration through `.env.example` and Zod validation.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 102.00 Tm (- Better server reliability through fail-fast DB startup and graceful shutdown.) Tj ET
+endstream
+endobj
+17 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 16 0 R >>
+endobj
+18 0 obj
+<< /Length 1062 >>
+stream
+BT /F1 8 Tf 1 0 0 1 54 30 Tm (Repository Review Report) Tj ET
+BT /F1 8 Tf 1 0 0 1 513 30 Tm (Page 7) Tj ET
+BT /F2 15 Tf 1 0 0 1 54.00 738.00 Tm (Future Enhancements) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 706.00 Tm (1. Add automated tests for auth and product CRUD flows.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 692.00 Tm (2. Add pagination and search for product listing.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 678.00 Tm (3. Add role-based access control if admin features are needed.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 664.00 Tm (4. Add logout and refresh-token flows.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 650.00 Tm (5. Store ImageKit file ids to support image cleanup when products are deleted or updated.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 636.00 Tm (6. Add API documentation with accurate examples for cookie and Bearer token authentication.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 622.00 Tm (7. Add request logging with correlation ids for easier debugging.) Tj ET
+BT /F1 10.2 Tf 1 0 0 1 64.00 608.00 Tm (8. Add CI checks for syntax, tests, and dependency audit.) Tj ET
+endstream
+endobj
+19 0 obj
+<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> >> /Contents 18 0 R >>
+endobj
+xref
+0 20
+0000000000 65535 f 
+0000000014 00000 n 
+0000000063 00000 n 
+0000000161 00000 n 
+0000000231 00000 n 
+0000000306 00000 n 
+0000000374 00000 n 
+0000004634 00000 n 
+0000004780 00000 n 
+0000008757 00000 n 
+0000008903 00000 n 
+0000012762 00000 n 
+0000012910 00000 n 
+0000017119 00000 n 
+0000017267 00000 n 
+0000020976 00000 n 
+0000021124 00000 n 
+0000025881 00000 n 
+0000026029 00000 n 
+0000027143 00000 n 
+trailer
+<< /Size 20 /Root 1 0 R >>
+startxref
+27291
+%%EOF
