@@ -1,12 +1,13 @@
 import helmet from "helmet";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
+import env from "../config/env.js";
 
 const securityMiddleware = [
   helmet(),
 
   cors({
-    origin: process.env.CLIENT_URL || "http://localhost:5173",
+    origin: env.clientUrl,
     credentials: true,
   }),
 

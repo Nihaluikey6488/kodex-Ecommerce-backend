@@ -1,43 +1,49 @@
-// This file defines the routes for porduct Management
-import  express from 'express'
-import upload from '../middlewares/multer.middleware.js'
-import sendFiles from '../config/imageKit.js'
-import productModel from '../models/products.model.js'
-import ApiError from '../utils/apiError.js'
-import { addProductController,getAllProductsController,getProductByIdController,deleteProductController,updateProductController } from '../controllers/product.controller.js'
-import authMiddleware from '../middlewares/auth.middleware.js'
+import express from "express";
+import {
+  addProductController,
+  deleteProductController,
+  getAllProductsController,
+  getProductByIdController,
+  updateProductController,
+} from "../controllers/product.controller.js";
+import authMiddleware from "../middlewares/auth.middleware.js";
+import upload from "../middlewares/multer.middleware.js";
+import validate from "../middlewares/validate.middleware.js";
+import {
+  createProductValidation,
+  productIdValidation,
+  productQueryValidation,
+  updateProductValidation,
+} from "../validations/product.validation.js";
 
-// router setup for user authentication routes
-let router=express.Router()
-// POST API route for creating new products
-// URL: /products
-// When a POST request comes to /products,
-// addProductController function will run
-router.post('/products',upload.array('images',5),authMiddleware,addProductController)
-// GET API route for fetching all products
-// URL: /products
-// When a GET request comes to /products,
-// addProductController function will run
-router.get('/products',authMiddleware,getAllProductsController)
-// GET API route for fetching single products
-// URL: /products/:id
-// When a GET request comes to /products/:id,
-// getProductByIdController function will run
-router.get('/products/:id',authMiddleware,getProductByIdController)
-// DELETE API route for Deleting single products
-// URL: /products/:id
-// When a DELETE request comes to /products/:id,
-// deleteProductController function will run
+const router = express.Router();
 
-router.delete('/products/:id',authMiddleware,deleteProductController)
-// PUT API route for Updating single products
-// URL: /products/:id
-// When a PUT request comes to /products/:id,
-//  updateProductController function will run
+router
+  .route("/products")
+  .post(
+    authMiddleware,
+    upload.array("images", 5),
+    createProductValidation,
+    validate,
+    addProductController,
+  )
+  .get(
+    authMiddleware,
+    productQueryValidation,
+    validate,
+    getAllProductsController,
+  );
 
-router.put('/products/:id',upload.array('images',5),authMiddleware,updateProductController)
+router
+  .route("/products/:id")
+  .get(authMiddleware, productIdValidation, validate, getProductByIdController)
+  .delete(authMiddleware, productIdValidation, validate, deleteProductController)
+  .put(
+    authMiddleware,
+    upload.array("images", 5),
+    updateProductValidation,
+    validate,
+    updateProductController,
+  );
 
-
-
-// Export  configured  router so it can be used in other files
-export default router
+export default router;

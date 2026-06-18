@@ -2,6 +2,7 @@ import "dotenv/config";
 
 import express from "express";
 import cookieParser from "cookie-parser";
+import multer from "multer";
 
 import authRoutes from "./routes/auth.routes.js";
 import productRoutes from "./routes/product.routes.js";
@@ -33,11 +34,22 @@ app.use((req, res) => {
 
 // Global error handler
 app.use((err, req, res, next) => {
-  const statusCode = err.statusCode || 500;
+  let statusCode = err.statusCode || 500;
+  let message = err.message || "Internal Server Error";
+
+  if (err instanceof multer.MulterError) {
+    statusCode = 400;
+    message = err.message;
+  }
+
+  if (err.code === 11000) {
+    statusCode = 409;
+    message = "Duplicate resource already exists";
+  }
 
   res.status(statusCode).json({
     success: false,
-    message: err.message || "Internal Server Error",
+    message,
   });
 });
 

@@ -1,4 +1,7 @@
-import userModel from "../models/users.model.js";
+import {
+  createUser,
+  findUserByEmail,
+} from "../repositories/user.repository.js";
 import ApiError from "../utils/apiError.js";
 
 const sanitizeUser = (user) => {
@@ -15,13 +18,13 @@ export const registerService = async (data) => {
   const { name, email, password } = data;
   const normalizedEmail = email.toLowerCase();
 
-  const existingUser = await userModel.findOne({ email: normalizedEmail });
+  const existingUser = await findUserByEmail(normalizedEmail);
 
   if (existingUser) {
     throw new ApiError(409, "Email already registered");
   }
 
-  const newUser = await userModel.create({
+  const newUser = await createUser({
     name: name.trim(),
     email: normalizedEmail,
     password,
@@ -36,7 +39,9 @@ export const loginService = async (data) => {
   const { email, password } = data;
   const normalizedEmail = email.toLowerCase();
 
-  const user = await userModel.findOne({ email: normalizedEmail }).select("+password");
+  const user = await findUserByEmail(normalizedEmail, {
+    includePassword: true,
+  });
 
   if (!user) {
     throw new ApiError(401, "Invalid email or password");

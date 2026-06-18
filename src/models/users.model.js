@@ -61,9 +61,6 @@ userSchema.methods.comparePassword = async function (password) {
     return await bcrypt.compare(password, this.password)
 }
 
-userSchema.methods.ComparePassword = userSchema.methods.comparePassword
-
-
 // Create model from schema
 const userModel = mongoose.model("users", userSchema)
 

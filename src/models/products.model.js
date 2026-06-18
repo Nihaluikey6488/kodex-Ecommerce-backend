@@ -1,52 +1,44 @@
-// Import mongoose package
-import mongoose from "mongoose"
+import mongoose from "mongoose";
 
-
-// Create schema for products collection
-const productSchema = new mongoose.Schema({
-
-    // Product name field
+const productSchema = new mongoose.Schema(
+  {
     name: {
-        type: String, // Data type will be string
-        trim: true, // Remove extra spaces from start and end
-        required: [true, "Product name is required"] // Validation message
+      type: String,
+      trim: true,
+      minlength: [3, "Product name should be at least 3 characters long"],
+      required: [true, "Product name is required"],
     },
-
-    // Product description field
     description: {
-        type: String // Product description stored as string
+      type: String,
+      trim: true,
+      default: "",
     },
-
-    // Product price field
     price: {
-        type: Number, // Data type number
-        required: [true, "Product Price is required"] // Price is mandatory
+      type: Number,
+      min: [0, "Product price cannot be negative"],
+      required: [true, "Product price is required"],
     },
-
-    // Product category field
     category: {
-        type: String, // Category stored as string
-        trim: true // Remove extra spaces
+      type: String,
+      trim: true,
+      default: "general",
     },
+    images: {
+      type: [String],
+      default: [],
+    },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "users",
+      required: true,
+      index: true,
+    },
+  },
+  {
+    timestamps: true,
+  },
+);
 
-    // Array to store multiple product image URLs
-    images: [
-        {
-            type: String // Each image stored as URL string
-        }
-    ],
-user:String
+const productModel = mongoose.model("Product", productSchema);
 
-}, {
-
-    // Automatically add createdAt and updatedAt fields
-    timestamps: true
-})
-
-
-// Create model from product schema
-const productModel = mongoose.model("product", productSchema)
-
-
-// Export product model
-export default productModel
+export default productModel;

@@ -1,20 +1,30 @@
-import jwt from 'jsonwebtoken';
-import ApiError from '../utils/apiError.js';
+import jwt from "jsonwebtoken";
+import env from "../config/env.js";
+import ApiError from "../utils/apiError.js";
 
-// auth middleware to verify the token and save the user in requested body
 const authMiddleware = (req, res, next) => {
+  try {
+    const cookieToken = req.cookies?.token;
+    const authHeader = req.headers.authorization;
+    const bearerToken = authHeader?.startsWith("Bearer ")
+      ? authHeader.split(" ")[1]
+      : null;
 
-    const token = req.cookies.token;
-    // Check the toke is present or not 
-    if(!token){
-        throw new ApiError(401,"Unauthorized user")
+    const token = cookieToken || bearerToken;
+
+    if (!token) {
+      throw new ApiError(401, "Authentication token is required");
     }
-  
-    const user = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = user; // { id: "user_id", email: "user_email" }
 
-
+    req.user = jwt.verify(token, env.jwtSecret);
     next();
-}
+  } catch (error) {
+    if (error instanceof ApiError) {
+      return next(error);
+    }
 
-export default authMiddleware
+    return next(new ApiError(401, "Invalid or expired token"));
+  }
+};
+
+export default authMiddleware;
